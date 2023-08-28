@@ -1,26 +1,21 @@
-const Report = require('../models/reports');
 const User = require('../models/users');
+const Miss = require('../models/misses');
 var path = require('path');
 
-exports.create = async function (req, id, res) {
+exports.create = async function (req,id, res) {
     var userData = req.body;
 
     //const userid = await User.findById(id);
 
-    var report = new Report({
+    var miss = new Miss({
         userID: id,
-        //userName: userData.userName,
-        img: req.file.path,
         lat: userData.lat,
         lng: userData.lng,
-        species: userData.species,
-        cause : userData.cause,
-        otherInfo: userData.otherInfo,
-        status: userData.status,
+        size: userData.size,
         accidentTime: userData.accidentTime
     });
 
-    await report.save(function (err, results) {
+    await miss.save(function (err, results) {
         if (err) {
             console.error(err);
         } else {

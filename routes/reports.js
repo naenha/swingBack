@@ -1,5 +1,6 @@
 var express = require('express');
 var reports = require('../controllers/reports');
+var misses = require('../controllers/misses');
 var multer = require('multer');
 var router = express.Router();
 
@@ -20,10 +21,15 @@ var upload = multer({ storage: storage });
 
 // /:id
 router.post('/:id', upload.single('img'), function(req, res, next) {
-    console.log(req);
+    var id = req.params.id;
     reports.create(req,id, res);
     res.send('reports stored');
 });
 
+router.post('/nearmiss/:id', function(req, res, next) {
+    var id = req.params.id;
+    misses.create(req,id, res);
+    res.send('near miss reports stored');
+});
 
 module.exports = router;

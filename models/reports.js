@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var ReportSchema = new Schema(
     {
             userID : {type: Schema.Types.ObjectId, ref: 'User'},
-            userName : {type: String, required: true},
+            // userName : {type: String, required: true},
             img: {type: String, required: true},
             lat: {type: Number, required: true},
             lng: {type: Number, required: true},
@@ -13,7 +13,8 @@ var ReportSchema = new Schema(
             cause : {type: String},
             otherInfo: {type: String, maxlength: 1000},
             status: {type : Boolean, default: 0},    //0: 처리중, 1:처리완료
-            createdAt : {type: Date, default : Date.now},
+            accidentTime : {type: Date, default : Date.now},
+            createdAt: {type: Date, default : Date.now}
     }
 );
 
