@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 
-var mongoDB = 'mongodb://127.0.0.1:27017/swing';
+//var mongoDB = 'mongodb://127.0.0.1:27017/swing';
+
+var mongoDB = 'mongodb+srv://admin:swing@cluster0.p3tkwex.mongodb.net/swing?retryWrites=true&w=majority'
 
 //mongoose.Promise = global.Promise;
 

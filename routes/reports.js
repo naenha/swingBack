@@ -18,10 +18,10 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-
-router.post('/', upload.single('img'), function(req, res, next) {
+// /:id
+router.post('/:id', upload.single('img'), function(req, res, next) {
     console.log(req);
-    reports.create(req,res);
+    reports.create(req,id, res);
     res.send('reports stored');
 });
 

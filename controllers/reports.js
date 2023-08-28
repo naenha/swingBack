@@ -2,15 +2,16 @@ const Report = require('../models/reports');
 const User = require('../models/users');
 var path = require('path');
 
-exports.create = async function (req, res) {
+exports.create = async function (req, id, res) {
     var userData = req.body;
 
-    //userid 어케하지?...
-    const userid = await User.findById(userData.userID);
+    const userid = await User.findById(id);
+
+    // 시간 추가(안드 simple data format)
 
     var user = new Report({
-        //userID: userData.userID,
-        userName: userData.userName,
+        userID: userid,
+        //userName: userData.userName,
         img: req.file.path,
         lat: userData.lat,
         lng: userData.lng,
