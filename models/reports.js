@@ -9,10 +9,11 @@ var ReportSchema = new Schema(
             img: {type: String, required: true},
             lat: {type: Number, required: true},
             lng: {type: Number, required: true},
-            species: {type: String, required: true, default : "unknown"},
-            cause : {type: String},
-            otherInfo: {type: String, maxlength: 1000},
-            status: {type : Boolean, default: 0},    //0: 처리중, 1:처리완료
+            species: {type: String, required: true, default : "unknown"}, //staff
+            cause : {type: String}, //staff
+            otherInfoByUser: {type: String, maxlength: 1000},
+            otherInfoByStaff: {type: String, maxlength: 1000},  //staff
+            status: {type : Boolean, default: 0},    //0: 처리중, 1:처리완료 staff
             accidentTime : {type: Date, default : Date.now},
             createdAt: {type: Date, default : Date.now}
     }
