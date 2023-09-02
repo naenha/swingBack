@@ -40,20 +40,19 @@ router.post('/nearmiss/:id', function(req, res, next) {
 router.get('/:id', async function(req,res){
     //user id
     var id = req.params.id;
-    const report = await reports.getReportsByUserID(id);
+    var report =await reports.getReportsByUserID(id);
 
-    return report;
+    res.send(report);
 });
 
 
 // 신고 게시물 조회
-router.get('/post/:id', function(req,res){
+router.get('/post/:id', async function(req,res){
     //report id
     var id = req.params.id;
-    console.log(id);
-    const report = reports.getReportByID(id);
+    var report = await reports.getReportByID(id);
 
-    return report;
+    res.send(report);
 });
 
 

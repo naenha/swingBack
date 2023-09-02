@@ -35,7 +35,7 @@ exports.getReportsByUserID = function(id) {
 
 // 신고 세부사항보기
 exports.getReportByID = function(id) {
-    return Report.findById(id).exec();
+    return Report.findById(id).lean().exec();
 };
 
 /*----관리자-------*/
