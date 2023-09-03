@@ -7,13 +7,16 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+
 router.get('/add', async function(req, res) {
   console.log("called at router");
   try {
-      const result = images.add();
+      const result = await images.add();
       res.send(`파이썬 스크립트의 결과: ${result}`);
   } catch (error) {
+      console.error(`에러 발생: ${error}`);
       res.status(500).send(`에러 발생: ${error}`);
   }
 });
+
 module.exports = router;
