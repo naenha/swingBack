@@ -11,9 +11,10 @@ module.exports = () => {
         passReqToCallback: false,
     }, async (email, password, done) => {
         try {
-            const exUser = await User.find({ email:email });
+            const exUser = await User.findOne({ email:email });
             if (exUser) {
-                const result = await bcrypt.compare(password, exUser.password);
+                const result = await bcrypt.compare(password, exUser.pwd);
+                console.log(result)
                 if (result) {
                     done(null, exUser);
                 } else {
