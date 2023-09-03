@@ -7,7 +7,7 @@ const User = require('../models/users');
 module.exports = () => {
     passport.use(new LocalStrategy({
         usernameField: 'email',
-        passwordField: 'password',
+        passwordField: 'pwd',
         passReqToCallback: false,
     }, async (email, password, done) => {
         try {
