@@ -1,15 +1,31 @@
 const { spawn } = require('child_process');
 
-exports.add = function() {
+exports.imageClassification = function(image_path, res) {
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('python', ['./add.py', '5', '7']);
+        console.log("called at controllers");
+        console.log(image_path);
+        const pythonProcess = spawn('python', ['image_classification.py', image_path]);
+
+        let result = ''; // 이미지 분류 결과를 저장할 변수
 
         // 파이썬 스크립트의 출력을 
         pythonProcess.stdout.on('data', (data) => {
             console.log("called at controllers");
-            const result = data.toString().trim();
-            console.log(`파이썬 스크립트의 결과: ${result}`);
-            resolve(result); // Promise를 성공 상태로 처리
+            const partialResult = data.toString().trim();
+            console.log(`파이썬 스크립트의 결과: ${partialResult}`);
+            
+            // 로그 메시지가 아닌 경우에만 결과를 누적하고 응답으로 보냅니다.
+            if (!partialResult.includes('[==============================]')) {
+                result += partialResult;
+            }
+
+            // 클래스명 추출
+            const classMatch = partialResult.match(/(raccoon|roe deer|water deer|wild boar)/);
+            if (classMatch) {
+                const className = classMatch[0];
+                resolve(className); // 클래스명을 Promise를 성공 상태로 처리
+                res.send(className); // 클래스명을 응답으로 보냅니다.
+            }
         });
 
         pythonProcess.stderr.on('data', (data) => {

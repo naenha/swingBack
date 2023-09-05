@@ -19,7 +19,7 @@ exports.create = async function (req, id, res) {
         accidentTime: userData.accidentTime
     });
 
-    await report.save(function (err, results) {
+    report.save(function (err, results) {
         if (err) {
             console.error(err);
         } else {
@@ -46,6 +46,33 @@ exports.getAllReports = function(req,res) {
         .sort({ createdAt: -1 }) // createdAt을 기준으로 내림차순 정렬
         .lean().exec();
 };
+
+//lat lng 모아보기
+exports.getAllLocation = function(req, res) {
+    return Report.find()
+        .sort({ createdAt: -1 })
+        .select('lat lng')
+        .lean()
+        .exec()
+        .then((reports) => {
+            const locations = reports.map((report) => ({
+                lat: report.lat,
+                lng: report.lng
+            }));
+            return locations;
+        })
+        .then((locations) => {
+            // 여기서 locations을 사용하거나 반환합니다.
+            res.json(locations); // 예: JSON 형태로 응답을 보냅니다.
+        })
+        .catch((error) => {
+            // 오류 처리
+            console.error(error);
+            //res.send({ error: error.message }); // 에러 메시지를 클라이언트에게 보냅니다.
+        });
+};
+
+
 
 
 // 처리중 혹은 처리완료 신고들만 모아보기(관리자)
