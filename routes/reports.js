@@ -1,6 +1,7 @@
 var express = require('express');
 var reports = require('../controllers/reports');
 var misses = require('../controllers/misses');
+var images = require('../controllers/images');
 var multer = require('multer');
 var router = express.Router();
 
@@ -21,11 +22,22 @@ var upload = multer({ storage: storage });
 
 
 // 신고하기
-router.post('/:id', upload.single('img'), function(req, res, next) {
+router.post('/:id', upload.single('img'), async function(req, res) {
     //userid
-    var id = req.params.id;
-    reports.create(req,id, res);
-    res.send('reports stored');
+
+    try {
+        var id = req.params.id;
+        var saved = await reports.create(req,id, res);
+        const result = await images.imageClassification(req.file.path);
+        //console.log("result(Router)" + result);
+
+        reports.speciesUpdate(saved, result);
+        res.end();
+
+  } catch (error) {
+      console.error(`에러 발생: ${error}`);
+      res.status(500).send(`에러 발생: ${error}`);
+  }
 });
 
 //near miss 생성하기

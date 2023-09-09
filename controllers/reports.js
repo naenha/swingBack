@@ -5,27 +5,28 @@ var path = require('path');
 
 //신고하기
 exports.create = async function (req, id, res) {
-    var userData = req.body;
+    try {
+        var userData = req.body;
 
-    var report = new Report({
-        userID: id,
-        img: req.file.path,
-        lat: userData.lat,
-        lng: userData.lng,
-        species: userData.species,
-        cause : userData.cause,
-        otherInfoByUser: userData.otherInfoByUser,
-        status: userData.status,
-        accidentTime: userData.accidentTime
-    });
+        var report = new Report({
+            userID: id,
+            img: req.file.path,
+            lat: userData.lat,
+            lng: userData.lng,
+            species: userData.species,
+            cause : userData.cause,
+            otherInfoByUser: userData.otherInfoByUser,
+            status: userData.status,
+            accidentTime: userData.accidentTime
+        });
 
-    report.save(function (err, results) {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log("stored in DB");
-        }
-    });
+        const savedReport = await report.save();
+        console.log("stored in DB");
+
+        return savedReport._id;
+    } catch (err) {
+        console.error(err);
+    }
 };
 
 // 본인이 한 신고 전체보기
@@ -36,6 +37,27 @@ exports.getReportsByUserID = function(id) {
 // 신고 세부사항보기
 exports.getReportByID = function(id) {
     return Report.findById(id).lean().exec();
+};
+
+
+exports.speciesUpdate = function(id, species) {
+    // report id
+    //console.log("speciesUpdate");
+    //console.log(id);
+    //console.log(species);
+    const updateFields = {
+        species: species
+    };
+
+    Report.findByIdAndUpdate(id, updateFields, function(err, updatedReport) {
+        if (err) {
+            console.log(err);
+            //res.status(500).json({ error: "Error updating report", details: err });
+        } else {
+            console.log("species updated");
+            //res.send("species updated");
+        }
+    });
 };
 
 /*----관리자-------*/

@@ -3,6 +3,9 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
+import os
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # 모델 로드
 from keras.models import load_model
